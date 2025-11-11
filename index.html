@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Tip Lengkap</title>
+
+    <style>
+        /* ------------------------------------- */
+        /* CSS (Gaya) */
+        /* ------------------------------------- */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4682b4;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin: 15px 0 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="number"] {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            text-align: right;
+        }
+
+        button {
+            background-color: #4682b4;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #36658a;
+        }
+
+        #hasil {
+            text-align: left;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        #hasil p {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+
+        #hasil span {
+            font-weight: bold;
+            color: #2e8b57;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Kalkulator Tip</h1>
+
+        <label for="bil">Jumlah Bil (RM):</label>
+        <input type="number" id="bil" placeholder="0.00" value="50.00" min="0">
+
+        <label for="peratusanTip">Peratusan Tip (%):</label>
+        <input type="number" id="peratusanTip" placeholder="10" value="10" min="0">
+
+        <label for="bilanganOrang">Bilangan Orang:</label>
+        <input type="number" id="bilanganOrang" placeholder="1" value="1" min="1">
+
+        <button onclick="kiraTip()">Kira Tip</button>
+        
+        <hr>
+
+        <div id="hasil">
+            <p>Tip: <span id="jumlahTip">RM 0.00</span></p>
+            <p>Jumlah Keseluruhan: <span id="jumlahKeseluruhan">RM 0.00</span></p>
+            <p>Setiap Orang Bayar: <span id="setiapOrang">RM 0.00</span></p>
+        </div>
+    </div>
+    
+    <script>
+        /* ------------------------------------- */
+        /* JAVASCRIPT (Logik) */
+        /* ------------------------------------- */
+        function kiraTip() {
+            // 1. Dapatkan semua nilai input
+            let jumlahBil = parseFloat(document.getElementById('bil').value);
+            let peratusanTip = parseFloat(document.getElementById('peratusanTip').value);
+            let bilanganOrang = parseInt(document.getElementById('bilanganOrang').value);
+            
+            // 2. Ralat Handling: Pastikan input adalah sah
+            if (isNaN(jumlahBil) || jumlahBil <= 0 || 
+                isNaN(peratusanTip) || peratusanTip < 0 ||
+                isNaN(bilanganOrang) || bilanganOrang < 1) { 
+                
+                alert("Sila masukkan nilai yang sah. Jumlah Bil mesti positif, dan Bilangan Orang mesti sekurang-kurangnya 1.");
+                
+                // Tetapkan paparan hasil kepada sifar jika ralat
+                document.getElementById('jumlahTip').innerText = 'RM 0.00';
+                document.getElementById('jumlahKeseluruhan').innerText = 'RM 0.00';
+                document.getElementById('setiapOrang').innerText = 'RM 0.00';
+                return; 
+            }
+
+            // 3. Lakukan Pengiraan
+            let tip = jumlahBil * (peratusanTip / 100);
+            let jumlahAkhir = jumlahBil + tip;
+            let perOrang = jumlahAkhir / bilanganOrang; 
+
+            // 4. Format dan Paparkan Hasil
+            let tipDibulatkan = tip.toFixed(2);
+            let jumlahAkhirDibulatkan = jumlahAkhir.toFixed(2);
+            let perOrangDibulatkan = perOrang.toFixed(2);
+
+            document.getElementById('jumlahTip').innerText = 'RM ' + tipDibulatkan;
+            document.getElementById('jumlahKeseluruhan').innerText = 'RM ' + jumlahAkhirDibulatkan;
+            document.getElementById('setiapOrang').innerText = 'RM ' + perOrangDibulatkan;
+        }
+    </script>
+
+</body>
+</html>
